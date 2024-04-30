@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="/login.html" class="button">Login</a>
+    </div>
+    <h1>Blog Posts</h1>
+    <div id="postsContainer"></div>
+    <button onclick="window.location.href='create.html'">Create New Post</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/posts')
+            .then(response => response.json())
+            .then(posts => {
+                const postsContainer = document.getElementById('postsContainer');
+                posts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'post';
+                    postDiv.innerHTML = `
+                        <h2><a href="viewPost.html?id=${post.id}">${post.title}</a></h2>
+                        <p>${post.content}</p>
+                    `;
+                    postsContainer.appendChild(postDiv);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
